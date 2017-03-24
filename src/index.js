@@ -1,16 +1,19 @@
-initialize(function () {
-  var inputs = document.querySelectorAll('.controls input');
+initialize(handleControls);
 
+function handleControls() {
+  const selectors = '.controls input';
+  let inputs = document.querySelectorAll(selectors);
+  let root = document.documentElement;
 
+  Array
+    .from(inputs)
+    .forEach(input => {
+      input.addEventListener('change', () => handleUpdate(input));
+      input.addEventListener('mousemove', () => handleUpdate(input));
+    });
 
   function handleUpdate(input) {
-    //Dataset that contains the unit of measurement of the object
-    var measurement = input.dataset.sizing || '';
-    document.documentElement.style.setProperty(`--${input.name}`, input.value + measurement);
-    console.log(input.name)
-
+    let measurement = input.dataset.sizing || '';
+    root.style.setProperty(`--${input.name}`, input.value + measurement);
   }
-
-  Array.from(inputs).forEach(input => input.addEventListener('change', handleUpdate));
-  Array.from(inputs).forEach(input => input.addEventListener('mousemove', handleUpdate));
-})
+}
